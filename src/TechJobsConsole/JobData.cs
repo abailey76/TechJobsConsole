@@ -10,10 +10,21 @@ namespace TechJobsConsole
         static List<Dictionary<string, string>> AllJobs = new List<Dictionary<string, string>>();
         static bool IsDataLoaded = false;
 
+        public static List<Dictionary<string, string>> DataCopy(List<Dictionary<string, string>> input)
+        {
+            List<Dictionary<string, string>> jobsCopy = new List<Dictionary<string, string>>();
+            foreach (Dictionary<string, string> row in input)
+            {
+                jobsCopy.Add(row);
+            }
+            return jobsCopy;
+        }
+
         public static List<Dictionary<string, string>> FindAll()
         {
             LoadData();
-            return AllJobs;
+            List<Dictionary<string, string>> AllJobsCopy = DataCopy(AllJobs);
+            return AllJobsCopy;
         }
 
         /*
@@ -23,10 +34,10 @@ namespace TechJobsConsole
         public static List<string> FindAll(string column)
         {
             LoadData();
-
+            List<Dictionary<string, string>> AllJobsCopy = DataCopy(AllJobs);
             List<string> values = new List<string>();
 
-            foreach (Dictionary<string, string> job in AllJobs)
+            foreach (Dictionary<string, string> job in AllJobsCopy)
             {
                 string aValue = job[column];
 
@@ -42,14 +53,15 @@ namespace TechJobsConsole
         {
             // load data, if not already loaded
             LoadData();
+            List<Dictionary<string, string>> AllJobsCopy = DataCopy(AllJobs);
 
             List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
 
-            foreach (Dictionary<string, string> row in AllJobs)
+            foreach (Dictionary<string, string> row in AllJobsCopy)
             {
-                string aValue = row[column];
+                string aValue = row[column].ToLower();
 
-                if (aValue.Contains(value))
+                if (aValue.Contains(value.ToLower()))
                 {
                     jobs.Add(row);
                 }
@@ -57,6 +69,38 @@ namespace TechJobsConsole
 
             return jobs;
         }
+
+        public static List<Dictionary<string, string>> FindByValue(string value)
+        {
+            LoadData();
+
+            List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
+            List<Dictionary<string, string>> AllJobsCopy = DataCopy(AllJobs);
+
+            foreach (Dictionary<string, string> row in AllJobsCopy)
+            {
+                foreach (string column in row.Keys)
+                {
+                    string aValue = row[column].ToLower();
+
+                    if (aValue.Contains(value.ToLower()))
+                    {
+                        if (!jobs.Contains(row))
+                        {
+                            jobs.Add(row);
+                        }
+                    }
+                }
+            }
+
+            return jobs;
+
+        }
+
+
+        /*
+         * 
+         */
 
         /*
          * Load and parse data from job_data.csv
