@@ -106,7 +106,7 @@ namespace TechJobsConsole
 
                 if (choiceIdx < 0 || choiceIdx >= choiceKeys.Length)
                 {
-                    Console.WriteLine("Invalid choices. Try again.");
+                    Console.WriteLine("Invalid choice. Try again.");
                 }
                 else
                 {
@@ -124,13 +124,13 @@ namespace TechJobsConsole
             {
                 foreach (Dictionary<string, string> job in someJobs)
                 {
-                    Console.WriteLine("********************");
+                    Console.WriteLine("\t**************************************************");
 
                     foreach (KeyValuePair<string, string> jobDetails in job)
                     {
-                        Console.WriteLine(jobDetails.Key + ": " + jobDetails.Value);
+                        Console.WriteLine($"\t{jobDetails.Key}: {jobDetails.Value}");
                     }
-                    Console.WriteLine("********************\n");
+                    Console.WriteLine("\t**************************************************\n");
                 }
             }
 
